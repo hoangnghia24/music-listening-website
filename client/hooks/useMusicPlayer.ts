@@ -44,11 +44,19 @@ export function useMusicPlayer() {
     currentStateRef.current.stop();
   }, []);
 
+  // 1. BỔ SUNG HÀM TUA NHẠC (SEEK) VÀO ĐÂY:
+  const seek = useCallback((time: number) => {
+    if (contextRef.current.audioElement) {
+      contextRef.current.audioElement.currentTime = time;
+    }
+  }, []);
+
   return {
-    uiStateName, // Dùng để quyết định render nút Play hay Pause trên UI
+    uiStateName,
     audioRef: (el: HTMLAudioElement) => { contextRef.current.audioElement = el; },
     play,
     pause,
-    stop
+    stop,
+    seek // 2. ĐỪNG QUÊN RETURN HÀM SEEK RA NGOÀI
   };
 }
